@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # Tabulate the jobs running and report how many of each job state there are
 # Shows both the job code AND the written out state so it's more clear
 qstat_list() {
-	echo "yes"
-	#if ['$1' == "test"] 
-	#then
-	#	args=`cat "$1" | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
-	#else
-		#args=args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
-	#	args=`cat "$1" | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
-	#fi
+	# if there are no arguments
+	if [ -z '$1' ] 
+	then
+		args=args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
+		
+	else
+		args=`cat test.txt | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
+	fi
 	# Code to take a list of cluster job codes and turn them into their respective descriptive states
 	# In other words, you can actualy understand what the job codes mean!
 	code_to_state() {
@@ -47,8 +47,10 @@ qstat_list() {
     # along with the lines
     # qstat | grep $USER | awk {'print $5'} | sort | uniq -c # old code
     # awk grabs the 5th argument and strips the newline chars i think?
-    args=`cat test.txt | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
-    echo $args
+    #args=`cat test.txt | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
+  
     code_to_state $args | sort | uniq -c
 }
 
+
+qstat_list test
