@@ -6,14 +6,14 @@ qstat_list() {
 	# if there are no arguments
 	if [ -z '$1' ] 
 	then
-		args=args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
+		args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
 	# Double quotes must be used around the argument, NOT single quotes
 	elif [ "$1" = 'test' ]
 	then
 		args=`cat test.txt | grep "shadew" | awk '{a = $1 " " a} END {print a}'`
 	else
 		U='$1'
-		args=args=`qstat -u $U| grep $U |  awk '{a = $5 " " a} END {print a}'`
+		args=`qstat -u $U| grep $U |  awk '{a = $5 " " a} END {print a}'`
 	fi
 	# Code to take a list of cluster job codes and turn them into their respective descriptive states
 	# In other words, you can actualy understand what the job codes mean!
