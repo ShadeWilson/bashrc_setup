@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
-#### TODO: grep/awk for url base
-# grab port number (store)
+# This function automatically opens your session
+# of RStudio on the cluster that you've already started
+# with launch_rstudio. Can import a port number or set a default (recommended)
+# based on your chosen port number in launch_rstudio
+
+# TODO: implement choice of browser?
 open_rstudio() {
 	if [ -z "$1" ] 
 	then 
@@ -9,15 +13,13 @@ open_rstudio() {
 	else
 		 PORT="$1" # find better way to grab default port
 	fi
-	# c2-6f16-16-2.ihme.washington.edu:6095
 	
-	#base=`qstat | grep 'RSTUDIO' | awk '{a = $5 " " a} END {print a}'`
+	# need the http:// here or else url wont be read properly
 	base=`echo "c2-6f16-16-2.ihme.washington.edu"`
 	url="http://"$base":"$PORT"/"
 	
-	echo "Launching RStudio at "$url""
+	echo "Launching RStudio at "$url"."
     start chrome "$url" 
-    #start chrome youtube.com
 }
 
 open_rstudio
