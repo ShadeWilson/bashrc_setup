@@ -12,6 +12,11 @@ clock() {
         echo "$i"
     done
 
-}
+    echo
 
+    for i in {0..8}
+    do
+        grep $i one.txt
+    done
+}
 clock
