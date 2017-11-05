@@ -23,19 +23,21 @@ clock() {
 
     clock[1]="$hour1"; clock[2]="$hour2"; clock[3]="$min1"; clock[4]="$min2"
 
-    find numbers -regex '.*"$hour1".txt'
-
     for i in ${clock[@]}
     do
-        echo "$i"
+        ls numbers/*"$i".txt
+        file[i]=`ls numbers/*"$hour1".txt`
     done
 
+    echo "$file[1]"
+    cat "$file[1]"
     echo
+
 
     range=8
     for ((i=0;i<="$range";i++))
     do
-        grep $i numbers/one1.txt > clock.input
+        grep $i "$file[1]" > clock.input
         grep $i numbers/two2.txt >> clock.input
         grep $i numbers/colon.txt >> clock.input
         grep $i numbers/three3.txt >> clock.input
@@ -50,6 +52,7 @@ clock() {
 
     rm clock.input
     rm clock.output
+
 }
 
 
