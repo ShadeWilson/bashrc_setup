@@ -14,9 +14,16 @@ clock() {
 
     echo
 
-    for i in {0..8}
+    range=8
+    for ((i=0;i<="$range";i++))
     do
-        grep $i one.txt
+        grep $i one.txt >> clock.output
+        grep $i two.txt >> clock.output
+        echo "for loop"
     done
+
+    cat clock.output
 }
+
+
 clock
