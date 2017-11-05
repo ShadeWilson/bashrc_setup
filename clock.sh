@@ -12,18 +12,18 @@ clock() {
     hour2=`expr $hour % 10`
     hour1=`expr $hour - $hour2 % 100 - 9`
 
-    time2=`expr $time % 10`
-    time1=`expr $time - $time2`
-    time1=`expr $time1 % 100`
-    time1=`expr $time1 / 10`
+    min2=`expr $min % 10`
+    min1=`expr $min - $min2`
+    min1=`expr $min % 100`
+    min1=`expr $min / 10`
 
 
     echo "Hour: "$hour1$hour2
-    echo "Min: "
+    echo "Min: "$min1$min2
 
-    clock[1]="$hour"; clock[2]="$min"
+    clock[1]="$hour1"; clock[2]="$hour2"; clock[3]="$min1"; clock[4]="$min2"
 
-    find numbers -regex '.*3.txt'
+    find numbers -regex '.*"$hour1".txt'
 
     for i in ${clock[@]}
     do
