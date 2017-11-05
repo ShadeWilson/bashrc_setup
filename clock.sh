@@ -1,8 +1,8 @@
 #!/bin/bash
 
 clock() {
-    echo > clock.output1
-    echo > clock.output2
+    echo > clock.input
+    echo > clock.output
 
     time=`date "+%I %M"`
     hour=`echo "$time" | awk '{a = $1 " " a} END {print a}'`
@@ -22,19 +22,21 @@ clock() {
     range=8
     for ((i=0;i<="$range";i++))
     do
-        grep $i numbers/three3.txt > clock.output1
-        grep $i numbers/two2.txt >> clock.output1
-        #cat clock.output | sed -E 's#\n\d# #g' > clock.output
-        #sed 's#\n[0-9]# #'
-        line=`cat clock.output1 | tr '\n[0-9]'  ' ' `
+        grep $i numbers/one1.txt > clock.input
+        grep $i numbers/two2.txt >> clock.input
+        grep $i numbers/colon.txt >> clock.input
+        grep $i numbers/three3.txt >> clock.input
+        grep $i numbers/four4.txt >> clock.input
+
+        line=`cat clock.input | tr '\n[0-9]'  ' ' `
         line="$line"'\n'
-        echo "$line" >> clock.output2
+        echo "$line" >> clock.output
     done
 
-    cat clock.output2
+    cat clock.output
 
-    rm clock.output1
-    rm clock.output2
+    rm clock.input
+    rm clock.output
 }
 
 
