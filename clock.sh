@@ -10,7 +10,9 @@ clock() {
 
     # kinda a hacky way to grab the digits, but it works
     hour2=`expr $hour % 10`
-    hour1=`expr $hour - $hour2 % 100 - 9`
+    hour1=`expr $hour - $hour2`
+    hour1=`expr $hour1 % 100`
+    hour1=`expr $hour1 / 10`
 
     min2=`expr $min % 10`
     min1=`expr $min - $min2`
@@ -23,25 +25,32 @@ clock() {
 
     clock[1]="$hour1"; clock[2]="$hour2"; clock[3]="$min1"; clock[4]="$min2"
 
+    inc=0
     for i in ${clock[@]}
     do
-        ls numbers/*"$i".txt
-        file[i]=`ls numbers/*"$hour1".txt`
+#ls numbers/*"$i".txt
+        file[$inc]=`ls numbers/*"$i".txt`
+#cat `ls numbers/*"$i".txt`
+        inc=`expr $inc + 1`
+#echo $inc
     done
 
-    echo "$file[1]"
-    cat "$file[1]"
-    echo
+
+    cat ${file[0]}
+    echo "^^"
 
 
     range=8
     for ((i=0;i<="$range";i++))
     do
-        grep $i "$file[1]" > clock.input
-        grep $i numbers/two2.txt >> clock.input
+        grep $i ${file[0]} > clock.input
+        grep $i ${file[1]} >> clock.input
+#grep $i numbers/two2.txt >> clock.input
         grep $i numbers/colon.txt >> clock.input
-        grep $i numbers/three3.txt >> clock.input
-        grep $i numbers/four4.txt >> clock.input
+        grep $i ${file[2]} >> clock.input
+        grep $i ${file[3]} >> clock.input
+#grep $i numbers/three3.txt >> clock.input
+#grep $i numbers/four4.txt >> clock.input
 
         line=`cat clock.input | tr '\n[0-9]'  ' ' `
         line="$line"'\n'
