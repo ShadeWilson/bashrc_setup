@@ -63,7 +63,6 @@ clock() {
         # Remove the line numbers and all newline chars
         line=`cat clock.input | tr '\n[0-9]'  ' ' `
         # Add a single newline to the end of the line
-        line="$line"'\n'
         echo "$line" >> clock.output # add to end of output
     done
 
