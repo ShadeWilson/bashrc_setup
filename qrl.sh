@@ -9,12 +9,12 @@ if [ -z "$1" ]
          PORT="$1" # find better way to grab default port
     fi
 
-# qstat | grep $USER | grep "rstudio" | awk '{a = $2 " " a} END {print a} --> or whatever job num is
-# grab just rstudio line and use to qstat xml
-# qstat $JOB -xml | grep "queue_name" | sed -r 's#(.*@)|(<\/.*>)##' --> should be able to output this
-    base=`qstat | grep $USER | grep "rstudio" | awk '{a = $8 " " a} END {print a}' | sed -r 's#(^.*@)|(\s)##g'`
-    
-    url=""$base"gton.edu:"$PORT""
+    # grab job number
+    # use job number to find exec_host_list aka queue name and take info we want
+    JOB_NUM=`qstat | grep $USER | grep "rstudio" | awk '{a = $1 " " a} END {print a}'`
+    base=`qstat -j $JOB_NUM | grep "exec_host_list" | sed -r 's#(.*1:\s*)|(2\s*)##g'`
+
+    url=""$base""$PORT""
     
     echo "$url"
 }
