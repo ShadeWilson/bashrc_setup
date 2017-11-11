@@ -16,3 +16,5 @@ http://web.mit.edu/longjobs/www/status.html
 https://regex101.com/
 
 http://www.linfo.org/watch.html
+
+http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html#chap_01
