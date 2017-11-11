@@ -29,7 +29,7 @@ qstat_full() {
 
 		xml=`qstat -u "$U" -xml` # save xml output
 		children=`echo "$xml" | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g'` # grab the children, drop decriptions
-		out=`echo "$children"` # this gets rid of all extra newlines!!
+		out=`echo "$children" | grep "\w"` # this gets rid of all extra newlines!!
 		echo "$out" > full_details.txt
 		cat full_details.txt
 

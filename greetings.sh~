@@ -4,6 +4,7 @@ greetings() {
     
     date "+%r"
     date "+%B %d, %Y"
+    echo
 
     DAY=`date "+%A"`
 
