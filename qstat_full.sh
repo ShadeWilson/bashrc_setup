@@ -20,18 +20,28 @@ qstat_full() {
     # -r is needed in all these cases
     # maybe can fix issue with insert \n at end of each job description
 
-    #cat xml.txt | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g' | tr '\n' ' ' | sed -r 's#(^\s*)|(\s*$)##g' | sed -r 's#\s{2,}#\s#g' | column -t
-    #cols='Job State|Job Number|JAT prio|Name|Owner|Job Code|Start Time|Queue Name|Slots'
+		######## GRAVE YARD #########
+		#cat xml.txt | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g' | tr '\n' '~' | sed -r 's#(^~*)|(~*$)##g' | sed -r 's#~{2,}#~#g' | column -t >> qstat_full.output
+
+		####### ACTUAL CODE #######
+    # set column names and save them first to file
     echo 'State~Job Number~JAT prio~Name~Owner~Job Code~Start Time~Queue Name~Slots' > qstat_full.output
+
+		xml=`qstat -u "$U" -xml` # save xml output
+		children=`echo "$xml" | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g'` # grab the children, drop decriptions
+		out=`echo "$children"` # this gets rid of all extra newlines!!
+		echo "$out" > full_details.txt
+		cat full_details.txt
+
+    #out=`qstat -u "$U" -xml | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g' | tr '\n' '~' | sed -r 's#(^~*)|(~*$)##g' | sed -r 's#~{2,}#~#g'`
+		#echo "$out" #>> qstat_full.output
+
+		# qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g'  | sed 's#<[^>]*>##g' | grep " " | column -t
     #cat qstat_full.output
-   
-    #cat xml.txt | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g' | tr '\n' '~' | sed -r 's#(^~*)|(~*$)##g' | sed -r 's#~{2,}#~#g' | column -t >> qstat_full.output
-    qstat -u purcellc -xml | sed -r 's#(<[^>"]*>)|(<job_info[^>]*>)|(<job_list[^"]*)|(">?)|(\s)##g' | tr '\n' '~' | sed -r 's#(^~*)|(~*$)##g' | sed -r 's#~{2,}#~#g' >> qstat_full.output
-    # qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g'  | sed 's#<[^>]*>##g' | grep " " | column -t
-    #cat qstat_full.output
-   # echo
+
     column -s"~" -t qstat_full.output
-    rm qstat_full.output 
+    rm qstat_full.output
+		rm full_details.txt
 }
 
 # call function
