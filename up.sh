@@ -1,6 +1,7 @@
 #!/bin/bash
 
-up() {
+# function to go up a user-specified amount of directories
+function up() {
     if [ -z "$1" ] 
     then 
         GO_UP=1
@@ -15,10 +16,8 @@ up() {
 	NEW_DIR="$NEW_DIR"'../'
     done
 
-    echo $NEW_DIR
     cd $NEW_DIR
-   # cd $(printf "%0.0s../" $(seq 1 $1));
-    
+    pwd
 }
 
 up 2
