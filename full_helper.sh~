@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# helper method for qstat_full
+# takes stripped children file and reorganizes into separate rows
+# for each job
+
+full_helper() {
+
+
+
+
+
+}
+
+full_helper
