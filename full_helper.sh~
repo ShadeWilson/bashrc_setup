@@ -6,9 +6,23 @@
 
 full_helper() {
 
+    NUMBERED=`grep "\w" xml_children.txt | cat -n`
+    LINES=`cat xml_children.txt | wc -l`
 
+    echo $LINES
 
+    for LINE in `seq  9 $LINES` # count by 9s, each job has 9 lines
+    do
+	ROW_COUNT=0
+	for (( i=1; i<=9; i++))
+	do
+	    echo "$NUMBERED" | grep ' '$i'\t'
+	done
 
+	echo $LINE
+    done
+    
+    
 
 }
 
