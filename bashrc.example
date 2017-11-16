@@ -1,0 +1,240 @@
+# Example  .bashrc
+# Put together by Shade Wilson (shadew@uw.edu)
+# Work in progress! Check https://github.com/ShadeWilson/bashrc_setup for updates
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if test -x /usr/local/codem/;
+then
+    export PATH=/usr/local/codem/public_use_anaconda/bin:$PATH;
+else
+    export PATH=/share/local/R-3.2.4/bin/:$PATH;
+fi
+
+# Set up prompt
+# usure what these first ~10 lines do
+if test -f /etc/profile.d/git-sdk.sh
+then
+    TITLEPREFIX=SDK-${MSYSTEM#MINGW}
+else
+    TITLEPREFIX=$MSYSTEM
+fi
+
+if test -f ~/.config/git/git-prompt.sh
+then
+    . ~/.config/git/git-prompt.sh
+else
+    PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
+    PS1="$PS1"'\n'                 # new line
+    PS1="$PS1"'\[\033[0;91m\]'       # change to red
+    #PS1="$PS1"'\u@\h '             # user@host<space>
+    PS1="$PS1"'\u '                 # username
+    #PS1="$PS1"'\[\033[35m\]'       # change to purple
+    #PS1="$PS1"'$MSYSTEM '          # show MSYSTEM
+    PS1="$PS1"'\[\033[0;97m\]'       # change to white
+    PS1="$PS1"'\w'                 # current working directory
+    if test -z "$WINELOADERNOEXEC"
+    then
+        GIT_EXEC_PATH="$(git --exec-path 2>/dev/null)"
+        COMPLETION_PATH="${GIT_EXEC_PATH%/libexec/git-core}"
+        COMPLETION_PATH="${COMPLETION_PATH%/lib/git-core}"
+        COMPLETION_PATH="$COMPLETION_PATH/share/git/completion"
+        if test -f "$COMPLETION_PATH/git-prompt.sh"
+        then
+            . "$COMPLETION_PATH/git-completion.bash"
+            . "$COMPLETION_PATH/git-prompt.sh"
+            PS1="$PS1"'\[\033[36m\]'  # change color to cyan
+            PS1="$PS1"'`__git_ps1`'   # bash function
+        fi
+    fi
+    PS1="$PS1"'\[\033[0;91m\]'        # change color to red
+    #PS1="$PS1"'\n'                 # new line
+    PS1="$PS1"' $ '                 # prompt: always $
+    PS1="$PS1"'\[\033[0m\]'        # change color
+fi
+
+MSYS2_PS1="$PS1"               # for detection by MSYS2 SDK's bash.basrc
+
+#### Set-up functions and other aliases ####
+
+# Way to tell if on cluster or not, so home is sourced correctly for each
+# room for improvement
+distingiush_location() {
+  case $(uname -p) in
+    'x86_64')   HOME='/homes/'"$USER";; # if on cluster
+    'unknown')  HOME='/h';; # if on git bash
+    *)          HOME='/h';; # this could prob be improved, defaulting to /h
+  esac
+	
+	cd # change to newly defined home directory
+}
+
+distingiush_location # call function defined above
+
+#### aliases #####
+alias lh='ls -lhaG'
+alias c='cd /C'
+alias user='cd /C/Users/s'"$USER" # input your own username (or whatever) for user
+alias pdw='pwd'
+##################
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+#### Cluster functions ####
+
+job_stats() { if [ -z "$1" ]; then U=$USER; else U=$1; fi; echo `qstat -u $U | grep $U | awk {'print $5'} | sort | uniq -c`; };
+
+# Jupyter notebook
+jupyter_notebook() {
+    export R_LIBS=/usr/local/codem/public_use_anaconda/lib/R/library:$R_LIBS
+    export PATH=/usr/local/codem/public_use_anaconda/bin/:$PATH
+    /usr/local/codem/public_use_anaconda/bin/jupyter-notebook
+}
+
+# Code to take a list of cluster job codes and turn them into their respective descriptive states
+# In other words, you can actualy understand what the job codes mean!
+code_to_state() {
+    for code in "$@"; do # allows a varying number of args, more flexible
+        case $code in
+            "qw") echo -e $code "\tPending:user hold" ;; # -e arg allows echo to recognize escaped chars like newlines, tabs, etc
+            "hqw") echo -e $code "\tPending: system hold" ;;
+            "hRwq") echo -e $code "\tPending: user/system hold, re-queue" ;;
+            "r") echo -e $code "\tRunning" ;;
+            "t") echo -e $code "\tTransferring" ;;
+            "Rr") echo -e $code "\tRunning: re-submision" ;;
+            "Rt") echo -e $code "\tTransferring, re-submission" ;;
+            "s" | "ts") echo -e $code "\tJob suspended" ;;
+            "S" | "tS") echo -e $code "\tQueue suspended" ;;
+            "T" | "tT") echo -e $code "\tQueue suspended by alarm" ;;
+            "Rs" | "Rts" | "RS" | "RtS" | "RT" | "RtT") echo -e $code "\tAll suspended with re-submit" ;;
+            "Eqw" | "Ehqw" | "EhRqw") echo -e $code "\tError" ;;
+            "dr" | "dt" | "dRr" | "dRt" | "ds" | "dS" | "dT" | "dRs" | "dRS" | "dRT") echo -e $code "\tDeleted" ;; # regex would be better here
+            *) echo -e $code "\tUnknown job code" ;;
+        esac
+    done
+}
+
+# Gives the full name of jobs. Working on a better version now
+qstat_full() {
+		qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g'  | sed 's#<[^>]*>##g' | grep " " | column -t
+}
+
+# Tabulate the jobs running and report how many of each job state there are
+# Shows both the job code AND the written out state so it's more clear
+qstat_list() {
+    # date prints the current date, time, etc
+    date
+    # grep finds match and returns whole line
+    # | is the unix pipe. Args before it go into the subsequent command
+    # I think its like magrittr::%>%
+    # awk breaks each line of input passed to it into fields.
+    # the input in this case would be the values in the different columns outputted
+    # by qstat, specifically the job state code.
+    # sort sorts the job state codes (ofc), unnecessary tbh
+    # uniq -c prints the number of times each line occured
+    # along with the lines
+    # qstat | grep $USER | awk {'print $5'} | sort | uniq -c # old code
+    # awk grabs the 5th argument and strips the newline chars i think?
+    args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
+    code_to_state $args | sort | uniq -c
+}
+
+ipython_notebook() {
+    export R_LIBS=/usr/local/codem/public_use_anaconda/lib/R/library:$R_LIBS
+    export PATH=/usr/local/codem/public_use_anaconda/bin/:$PATH
+    /usr/local/codem/public_use_anaconda/bin/jupyter-notebook
+}
+
+qdeln() {
+    qstat | grep $1 | awk {'print $1'} | xargs qdel
+}
+
+launch_rstudio() {
+    SLOTS=${1:-2} # Replace 2 with what you want your default slot number to be
+    PROJECT=${2:-""}
+    PORT=6009 # Replace with your default port number
+
+    if [ "$PROJECT" = "" ]; then
+        sh /share/singularity-images/rstudio/shells/rstudio_qsub_script.sh -p $PORT -s $SLOTS
+    else
+        sh /share/singularity-images/rstudio/shells/rstudio_qsub_script.sh -p $PORT -P $PROJECT -s $SLOTS
+    fi
+}
+# launch_rstudio num_slots my_proj
+
+
+# Continually run qstat every 10 seconds so you don't have to keep repeating the command
+qstat_watch() {
+  watch --interval=10 'qstat; echo; echo "To exit, press ^C (control-C)."'
+}
+
+# you need to use qstat -xml and grab FULL NAME not this janky shit bc if base length changes, this is wrong
+qrl() {
+if [ -z "$1" ]
+    then
+        PORT=6009
+    else
+         PORT="$1" # find better way to grab default port
+    fi
+
+    # grab job number
+    # use job number to find exec_host_list aka queue name and take info we want
+    JOB_NUM=`qstat | grep $USER | grep "rstudio" | awk '{a = $1 " " a} END {print a}'`
+    base=`qstat -j $JOB_NUM | grep "exec_host_list" | sed -r 's#(.*1:\s*)|(:2\s*)##g'`
+
+    url=""$base":"$PORT""
+
+    echo "$url"
+}
+
+
+# type: up 3
+# to go up 3 directories, for instance
+
+# function to go up a user-specified amount of directories
+# input number of directories you want to do up
+# if you choose too high a number, it just puts you at the highest dir
+function up() {
+    if [ -z "$1" ]
+    then
+        GO_UP=1 # default go up one
+    else
+        GO_UP="$1"
+    fi
+
+    NEW_DIR=""
+
+    for i in `seq 1 $GO_UP`;
+    do
+	NEW_DIR="$NEW_DIR"'../'
+    done
+
+    cd $NEW_DIR
+    pwd # print final directory
+}
+
+########## Fun functions ###########
+
+greetings() {
+    date "+%r"
+    date "+%B %d, %Y"
+    echo
+
+    DAY=`date "+%A"`
+
+    case $DAY in
+        "Sunday") echo "Happy Sunday! Enjoy the rest of your weekend!" ;;
+        "Monday") echo "I know it's Monday, but you got this!" ;;
+	      "Tuesday") echo "Happy Taco Tuesday!" ;;
+				"Wednesday") echo "HUMP DAAAAAAAAAAAAY!" ;;
+				"Thursday") echo "One more day until the weekend, hang in there!" ;;
+				"Friday") echo "Happy Friday!!" ;;
+				"Saturday") echo "Why are you on your computer on a Saturday..." ;;
+    esac
+}
+
+greetings
