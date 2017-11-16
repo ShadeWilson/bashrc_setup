@@ -1,5 +1,22 @@
-# bash_scripts
-Helpful bash functions and shell scripts that can be run on the command line or pasted into a .bashrc file to be executed directly.
+# Setting Up Your .bashrc
+Helpful bash functions that can be pasted into a .bashrc file or run directly on the command line so you can work more efficiently on the cluster and beyond. These functions are annotated to be understandable for newcomers. Users can more easily customize files to fit their own research needs or delete all comments, run the functions, and not worry about the details.
+
+**Note:** this repo is currently under development, so not everything is in its final state! Please keep this in mind.
+
+## What is a .bashrc?
+
+## What is bash?
+
+## Basic bash commands
+https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html
+
+## Functions built for the cluster
+
+## General efficiency functions
+
+## Just for fun(ctions)
+
+## Resources for more information
 
 TBD
 
