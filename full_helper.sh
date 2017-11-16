@@ -7,7 +7,7 @@
 full_helper() {
 
     NUMBERED=`grep "\w" xml_children.txt | cat -n`
-    LINES=`cat xml_children.txt | wc -l`
+    LINES=`echo "$NUMBERED" | wc -l`
 
     echo $LINES
 
