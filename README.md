@@ -16,6 +16,8 @@ https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html
 
 ## Just for fun(ctions)
 
+## Advanced bash commands
+
 ## Resources for more information
 
 TBD
