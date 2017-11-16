@@ -1,5 +1,5 @@
 # Setting Up Your .bashrc
-Helpful bash functions that can be pasted into a .bashrc file or run directly on the command line so you can work more efficiently on the cluster and beyond. These functions are annotated to be understandable for newcomers. Users can more easily customize files to fit their own research needs or delete all comments, run the functions, and not worry about the details.
+Helpful bash functions that can be pasted into a .bashrc file or run directly on the command line so you can work more efficiently on the cluster and beyond. These functions are annotated to be understandable for newcomers. Users can customize files to fit their own research needs or delete all comments, run the functions, and not worry about the details.
 
 **Note:** this repo is currently under development, so not everything is in its final state! Please keep this in mind.
 
