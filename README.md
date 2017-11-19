@@ -25,14 +25,30 @@ if [ -f ~/.bashrc ]; then
 fi
 ```
 
-Note that for Mac's version of the terminal runs a login shell by default and thus calls `.bash_profile` whenever you open a new window.
+Note that Mac's version of the terminal runs a login shell by default and thus calls `.bash_profile` whenever you open a new window. If you use a Mac, it makes more sense to put everything in your `.bash_profile` instead.
 
 [More information about the difference between the two.](http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html)
 
 ## What is bash?
 
 ## Basic bash commands
-https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html
+
+Navigating in a linux enviroment can be terrifying for newcomers since it's vastly different from a point-and-click interface. Here are some useful bash commands to get you more comfortable working in the terminal.
+
+**Common bash commands**
+
+| Command | Description | Examples and options
+| ------- | ----------- | -------
+| ls | **l**i**s**t files in a directory | -`ls -a` shows otherwise hidden files (like .bashrc)<br>-`ls --color=auto` enables coloring content based on type (file, directory, link, etc.)<br>-`ls -lrt` shows **l**ong format by **t**ime of last modification in **r**everse order
+| cd | **c**hange working **d**irectory. Can be an absolute or relative path | `-cd` changes directory to your home directory<br>-`cd ..`moves you backwards one directory
+| pwd | **p**rint **w**orking **d**irectory. This will give you the absolute path | -`pwd`
+| mkdir | **m**a**k**e a new **dir**ectory in the working directory | -`mkdir new_dir`
+| cp | **c**o**p**y a file under a new name or different directory | -`cp old_file new_file`<br>-`cp old_file_in_current_dir other_dir`
+| mv | **m**o**v**e a file or directory. Can also be used to rename | -`mv old_file_name new_file_name`<br>-`mv file other_dir/file`
+| rm | **r**e**m**ove a file or directory although you'll need additional options for the latter | -`rm outdated_file`<br>-`rm -r outdated_dir`
+| man | displays a **man**ual page for a command. Not particularly useful unless you already know what you're looking for, but it's there if you need it. Press q to close | -`man cd`
+
+[Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
 
 ## Aliases
 
