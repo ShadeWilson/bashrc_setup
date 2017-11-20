@@ -37,6 +37,8 @@ Navigating in a linux enviroment can be terrifying for newcomers since it's vast
 
 **Common bash commands**
 
+These commands are all you need to get started working on the command line.
+
 | Command | Description | Examples and options
 | ------- | ----------- | -------
 | ls | **l**i**s**t files in a directory | -`ls -a` shows otherwise hidden files (like .bashrc)<br>-`ls --color=auto` enables coloring content based on type (file, directory, link, etc.)<br>-`ls -lrt` shows **l**ong format by **t**ime of last modification in **r**everse order
@@ -47,6 +49,13 @@ Navigating in a linux enviroment can be terrifying for newcomers since it's vast
 | mv | **m**o**v**e a file or directory. Can also be used to rename | -`mv old_file_name new_file_name`<br>-`mv file other_dir/file`
 | rm | **r**e**m**ove a file or directory although you'll need additional options for the latter | -`rm outdated_file`<br>-`rm -r outdated_dir`
 | man | displays a **man**ual page for a command. Not particularly useful unless you already know what you're looking for, but it's there if you need it. Press q to close | -`man cd`
+
+**File manipulation**
+
+| Command | Description | Examples and options
+| ------- | ----------- | -------
+| cat | displays the contents of a file. Can also be used for file con**cat**enation and file creation. [More information](http://www.linfo.org/cat.html) | -`cat file1` displays the contents of file1<br>-`cat file1 file 2 > file3` concatenates file1 and file2 into file3, overwriting anything file3<br>-`cat file1 >> file2` adds the contents file1 to the end of file2 without overwriting
+| head, tail | output the beginning, end of a file | -`head -n file` shows the first n lines
 
 [Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
 
