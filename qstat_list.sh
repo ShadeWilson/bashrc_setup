@@ -20,7 +20,7 @@ qstat_list() {
 	code_to_state() {
     	for code in "$@"; do # allows a varying number of args, more flexible
         	case $code in 
-            	"qw") echo -e $code "\tPending:user hold" ;; # -e arg allows echo to recognize escaped chars like newlines, tabs, etc
+            	"qw") echo -e $code "\tPending: user hold" ;; # -e arg allows echo to recognize escaped chars like newlines, tabs, etc
             	"hqw") echo -e $code "\tPending: system hold" ;;
             	"hRwq") echo -e $code "\tPending: user/system hold, re-queue" ;;
             	"r") echo -e $code "\tRunning" ;;
