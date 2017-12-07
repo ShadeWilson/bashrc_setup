@@ -5,5 +5,5 @@
 # change update time frame. Tell you when job is done?
 
 qstat_watch() {
-  watch --interval=10 'qstat; echo; echo "To exit, press ^C (control-C)."'
+  watch -n 60 'qstat; echo; echo "To exit, press ^C (control-C)."'
 }
