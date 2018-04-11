@@ -5,7 +5,7 @@
 # qstat_dismod -s prints the counts of how many jobs are in each state for each model
 qstat_dismod() {
   case "$1" in
-            -s) qstat | grep dm | awk '{print $3 "   " $5}'  | sort | uniq -c
-            *)  qstat | grep dm | awk '{print $3}' | sort | uniq -c
+            -s) qstat | grep dm | awk '{print $3 "   " $5}'  | sort | uniq -c;;
+            *)  qstat | grep dm | awk '{print $3}' | sort | uniq -c;;
   esac
 }
