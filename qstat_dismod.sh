@@ -1,17 +1,11 @@
 #!/usr/bin/env sh
 
-# command to view unique dismod models
-# will put in some options to see job status
+# COPY FUNCTION BELOW INTO YOUR .bashrc 
+# Lists the dismod models you have currently running or in the queue along with a count of jobs
+# qstat_dismod -s prints the counts of how many jobs are in each state for each model
 qstat_dismod() {
-  if [ -z "$1" ] 
-	then
-		U="$USER"
-	# Double quotes must be used around the argument, NOT single quotes
-	else
-		U="$1"
-	fi
-  
-  # TODO: add option to show and count job status
-  # qstat -u $U | grep dm | awk '{print $3 "\t" $5}' | sort | uniq -c
-  qstat -u $U | grep dm | awk '{print $3}' | sort | uniq -c
+  case "$1" in
+            -s) qstat | grep dm | awk '{print $3 "   " $5}'  | sort | uniq -c
+            *)  qstat | grep dm | awk '{print $3}' | sort | uniq -c
+  esac
 }
