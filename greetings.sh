@@ -15,7 +15,7 @@ greetings() {
 	"Wednesday") echo "HUMP DAAAAAAAAAAAAY!" ;;
 	"Thursday") echo "One more day until the weekend, hang in there!" ;;
 	"Friday") echo "Happy Friday!!" ;;
-	"Saturday") echo "Why are you on your computer on a Saturday..." ;;
+	"Saturday") echo "zzz..." ;;
     esac
 
 
