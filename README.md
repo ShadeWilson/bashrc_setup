@@ -226,7 +226,7 @@ greetings() {
 greetings
 ```
 
-Makes a noise! Requires your sound ot be on to hear it, and oyu may also need to be on a Windows. I put a call of this function in my `.bashrc` so that it makes a noise when my login goes through. Useful if your login lags/takes a long time and you want to do other things in the meantime.
+Makes a noise! Requires your sound to be on to hear it, and oyu may also need to be on a Windows. I put a call of this function in my `.bashrc` so that it makes a noise when my login goes through. Useful if your login lags/takes a long time and you want to do other things in the meantime.
 
 ```bash
 beep() {
@@ -236,7 +236,7 @@ beep() {
 beep
 ```
 
-Prints the current tim in Big Money - SW ASCII art font (credit to patorjk.com). You'll have to download the `numbers` folder from this repo. The easiest way to do this is to clone the repo into your home (`~`) directory.
+Prints the current time in Big Money - SW ASCII art font (credit to patorjk.com). You'll have to download the `numbers` folder from this repo. The easiest way to do this is to clone the repo into your home (`~`) directory.
 
 
 ```bash
@@ -317,20 +317,20 @@ clock
 
 ## Resources for more information
 
-TBD
+Here are some helpful and more detailed links about various things bash/commandline-related.
 
-http://www.grymoire.com/Unix/Sed.html#uh-1
+[The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html#uh-1)
 
-http://www.thegeekstuff.com/2012/12/linux-tr-command
+[All about `tr` (translate)](http://www.thegeekstuff.com/2012/12/linux-tr-command)
 
-https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php
+[If statements in bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php)
 
-http://gridscheduler.sourceforge.net/htmlman/htmlman1/qstat.html
+[The Sun Grid Engine (SGE) man page on qstat](http://gridscheduler.sourceforge.net/htmlman/htmlman1/qstat.html)
 
-http://web.mit.edu/longjobs/www/status.html
+[Checking SGE job status](http://web.mit.edu/longjobs/www/status.html)
 
-https://regex101.com/
+[A regular expressions playground](https://regex101.com/)
 
-http://www.linfo.org/watch.html
+[Detailed info on `watch`](http://www.linfo.org/watch.html)
 
-http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html#chap_01
+[Machtelt Garrels' Bash Beginner's Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html#chap_01)
