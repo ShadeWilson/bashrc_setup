@@ -21,7 +21,7 @@ Helpful bash functions that can be pasted into a .bashrc file or run directly on
 
 * [Advanced bash commands](https://github.com/ShadeWilson/bashrc_setup#advanced-bash-commands)
 
-* [Resources for more informations](https://github.com/ShadeWilson/bashrc_setup#resources-for-more-information)
+* [Resources for more information](https://github.com/ShadeWilson/bashrc_setup#resources-for-more-information)
 
 ## What is a .bashrc?
 A `.bashrc` file is basically a configuration file that sets up your environment when you open up a terminal window. It is a special kind of shell script typically found in your home directory that's run at the beginning of a session. You can also run it by typing `source .bashrc` in your home directory. You can put pretty much whatever you want into your .bashrc. It's a great place to customize the look of your command prompt (the bit before where your commands go. ex: `shadew $`), add in aliases, or "nicknames", for commands you often type, or write functions you can call no matter what directory you're in.
@@ -80,9 +80,20 @@ These commands are all you need to get started working on the command line.
 | ------- | ----------- | -------
 | cat | displays the contents of a file. Can also be used for file con**cat**enation and file creation. [More information](http://www.linfo.org/cat.html) | -`cat file1` displays the contents of file1<br>-`cat file1 file 2 > file3` concatenates file1 and file2 into file3, overwriting anything file3<br>-`cat file1 >> file2` adds the contents file1 to the end of file2 without overwriting
 | head, tail | output the beginning, end of a file | -`head -n file` shows the first n lines
-| wc | **w**ord **c**ount; prints number of lines, words and bytes in a file | `wc file`
+| wc | **w**ord **c**ount; prints number of lines, words and bytes in a file | -`wc file`
 
 [Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
+
+**Generally useful**
+
+| Command | Description | Examples and options
+| --- | --- | ---
+| clear | Clears all previous output on the terminal | -`clear`
+| history | shows a list of past commands oyu've typed in this shell | -`history`<br>-`history 10` shows last 10 commands
+| grep | **g**et given string or **reg**ular expression from file | -`grep "name" file`<br>-`ls | grep .txt` return all .txt files in directory
+| cal | outputs ASCII **cal**endar | -`cal`
+| whoami | outputs your username | -`whoami`
+
 
 ## Aliases
 
@@ -94,7 +105,7 @@ alias pdw='pwd'     # save yourself the annoyance if you mistype this often
 
 alias go='cd /long/file/path/I/cant/remember/and/dont/want/to/have/to/type/every/time'
 
-alias gs='git status' # shortcuts for git commands I used repeatedly
+alias gs='git status' # shortcuts for git commands I use repeatedly
 alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
