@@ -82,7 +82,7 @@ alias gp='git push'
 
 ## Functions built for the cluster
 
-A lot of work at IHME revolves aroud launching, monitoring, and relaunching jobs on the cluster. Building in custom functions into your `.bashrc` to make what you do on a daily basis easier. Here are some examples.
+A lot of work at IHME revolves aroud launching, monitoring, and relaunching jobs on the cluster. Building in custom functions into your `.bashrc` to make what you do on a daily basis easier. Here are some examples. Fell free to copy and paste them into your `.bashrc` if they seem useful to you!
 
 Toggle on/off full job names. SGE defaults to truncating job names after a certain number of characters. Command: `toggle`
 
@@ -99,7 +99,7 @@ toggle() {
 }
 ```
 
-List the number of jobs scheduled in each state. Ex if yo have 3 jobs running and 200 waiting for slots in the queue, `qstat_list` would return:
+List the number of jobs scheduled in each state. Ex if you have 3 jobs running and 200 waiting for slots in the queue, `qstat_list` would return:
 
 ```
 3 r Runing
@@ -155,7 +155,7 @@ qdeln() {
 }
 ```
 
-Delete jos based on the state they are in. Ex: `qdel_state r` will delete all jobs running
+Delete jobs based on the state they are in. Ex: `qdel_state r` will delete all jobs running
 
 ```bash
 qdel_state() {
@@ -174,7 +174,144 @@ qstat_watch() {
 
 ## General efficiency functions
 
+Here are some examples of functions that help with general efficiency navigating aroud the command line.
+
+Go up a user-specified amount of directories input number of directories you want to do up if you choose too high a number, it just puts you at the highest dir. Ex: `up 3` will take you up three directories.
+
+```bash
+up() {
+    if [ -z "$1" ]
+    then
+        GO_UP=1 # default go up one
+    else
+        GO_UP="$1"
+    fi
+
+    NEW_DIR=""
+
+    for i in `seq 1 $GO_UP`;
+    do
+	NEW_DIR="$NEW_DIR"'../'
+    done
+
+    cd $NEW_DIR
+    pwd # print final directory
+}
+```
+
+More functions incoming. [Suggest one here!](https://github.com/ShadeWilson/bashrc_setup/issues)
+
 ## Just for fun(ctions)
+
+Force your computer to greet you every day! This function prints out today's date and a greeting based on the day. You can edit the greetings however you wish to customize them. To be greeted every time you open a new terminal window, you'll need to put this function AND a call for this function (`greetings`) in your `.bashrc`.
+
+```bash
+greetings() {
+    date "+%B %d, %Y"
+    echo
+
+    DAY=`date "+%A"`
+
+    case $DAY in
+        "Sunday") echo "Happy Sunday! Enjoy the rest of your weekend!" ;;
+        "Monday") echo "I know it's Monday, but you got this!" ;;
+		"Tuesday") echo "Happy Taco Tuesday!" ;;
+		"Wednesday") echo "HUMP DAAAAAAAAAAAAY!" ;;
+		"Thursday") echo "One more day until the weekend, hang in there!" ;;
+		"Friday") echo "Happy Friday!!" ;;
+		"Saturday") echo "... :)" ;;
+    esac
+}
+
+greetings
+```
+
+Makes a noise! Requires your sound ot be on to hear it, and oyu may also need to be on a Windows. I put a call of this function in my `.bashrc` so that it makes a noise when my login goes through. Useful if your login lags/takes a long time and you want to do other things in the meantime.
+
+```bash
+beep() {
+	echo -en "\007"
+}
+
+beep
+```
+
+Prints the current tim in Big Money - SW ASCII art font (credit to patorjk.com). You'll have to download the `numbers` folder from this repo. The easiest way to do this is to clone the repo into your home (`~`) directory.
+
+
+```bash
+clock() {
+    # create temp files
+    echo > clock.input
+    echo > clock.output
+
+    # read in hour and minute values
+    time=`date "+%I %M"`
+    hour=`echo "$time" | awk '{a = $1 " " a} END {print a}'`
+    min=`echo "$time" | awk '{a = $2 " " a} END {print a}'`
+
+    # kinda a hacky way to grab the digits, but it works
+    # expr is needed for bash to treat the strings as ints
+    # Remember: all vars in bash are really strings!
+    hour2=`expr $hour % 10`
+    hour1=`expr $hour - $hour2`
+    hour1=`expr $hour1 % 100`
+    hour1=`expr $hour1 / 10`
+
+    min2=`expr $min % 10`
+    min1=`expr $min - $min2`
+    min1=`expr $min % 100`
+    min1=`expr $min / 10`
+
+    #echo "Hour: "$hour1$hour2
+    #echo "Min: "$min1$min2
+
+    # Save the 4 digits (HH:MM) into an array for easier iteration
+    clock[1]="$hour1"; clock[2]="$hour2"; clock[3]="$min1"; clock[4]="$min2"
+
+    inc=0 # dont forget this is a string!
+    for i in ${clock[@]}
+    do
+        #ls numbers/*"$i".txt
+        # grab the file in the number folder
+        # all are labeled generally: ex - numbers/one1.txt
+        file[$inc]=`ls $J_ROOT/temp/shadew/numbers/*"$i".txt`
+        inc=`expr $inc + 1`
+    done
+
+    # Nine (starting from 0) lines for this font
+    range=8
+
+    for ((i=0;i<="$range";i++))
+    do
+        # Grab the correct line number, save all four + colon to a temp file
+        grep $i ${file[0]} > clock.input
+        grep $i ${file[1]} >> clock.input
+
+        grep $i $HOME/bashrc_setup/numbers/colon.txt >> clock.input
+
+        grep $i ${file[2]} >> clock.input
+        grep $i ${file[3]} >> clock.input
+
+        # Remove the line numbers and all newline chars
+        line=`cat clock.input | tr '\n[0-9]'  ' ' `
+        # Add a single newline to the end of the line
+        echo "$line" >> clock.output # add to end of output
+    done
+
+    cat clock.output
+
+    # Remove temp files
+    rm clock.input
+    rm clock.output
+
+}
+
+clock
+```
+
+
+
 
 ## Advanced bash commands
 
