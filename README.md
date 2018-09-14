@@ -352,10 +352,15 @@ clock
 
 ## Advanced bash commands
 
+| Command | Description | Examples and options
+| --- | --- | ---
 | chmod | **ch** permissions of files or directories. See [here](https://www.computerhope.com/unix/uchmod.htm) | -`chmod 777 file` open all permissions on file<br>-`chmod 742 file` give full permissions to user, read + execute to group and read-only to other
-| egrep | **e**xtended regular expressions (same as running `grep -E`) | `asd` 
+| egrep | **e**xtended regular expressions (same as running `grep -E`) | -`egrep "support|help|windows" file`<br>-`egrep ^[a-zA-Z]+$' file`
+| find | finds files, outputs their path relative to you. Allows advanced filtering and running commands on found files | -`find dir` outputs everything in dir<br>-`find dir -type -f` outputs all files in dir<br>-`find -name "*.csv"` finds all csvs in the directory you're currently in
+| xargs | Reads data from standard input (stdin) and executes the given command 1 or more times based on the input. Blanks or spaces in the input are treated as delimiters; blank lines are ignored | -`ls | xargs wc` esentially the same as `wc *`<br>-`find -name "*to_delete*" | xargs rm`
+| htop | Powerful terminal-based system monitoring application that displays variouos systme processes and their resource consumption in a human-readable way. See [here](https://www.maketecheasier.com/power-user-guide-htop/) | -`htop`
+| curl | **c**ommand line tool for getting/sending files using **url** syntax | -`curl http://www.google.com >> google.txt`
 
-chmod, egrep, find, xargs, htop, &, curl/wget
 
 ## Resources for more information
 
@@ -383,6 +388,12 @@ Here are some helpful and more detailed links about various things bash/commandl
 [Detailed info on `watch`](http://www.linfo.org/watch.html)
 
 [Linux `chmod` command](https://www.computerhope.com/unix/uchmod.htm)
+
+[Bash's `find` command](https://math2001.github.io/post/bashs-find-command/)
+
+[`xargs` command tutorial with examples](https://shapeshed.com/unix-xargs/)
+
+[The Power-User's Guide to `htop`](https://www.maketecheasier.com/power-user-guide-htop/)
 
 ### Misc
 
