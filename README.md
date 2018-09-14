@@ -90,9 +90,11 @@ These commands are all you need to get started working on the command line.
 | --- | --- | ---
 | clear | Clears all previous output on the terminal | -`clear`
 | history | shows a list of past commands oyu've typed in this shell | -`history`<br>-`history 10` shows last 10 commands
-| grep | **g**et given string or **reg**ular expression from file | -`grep "name" file`<br>-`ls | grep .txt` return all .txt files in directory
+| grep | **g**et given string or **reg**ular expression from file | -`grep "name" file`<br>-`ls \| grep .txt` return all .txt files in directory
 | cal | outputs ASCII **cal**endar | -`cal`
 | whoami | outputs your username | -`whoami`
+| vim | open text-editor vim, which is notoriously hard to escape from. `escape, :wq` to escape | -`vim file` open file in vim.
+| echo | prints out a message or value, like `println` | -`echo` prints a newline<br>-`echo john is my friend`<br>-`echo $USER` prints out the name of the user
 
 
 ## Aliases
