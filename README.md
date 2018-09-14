@@ -319,18 +319,27 @@ clock
 
 Here are some helpful and more detailed links about various things bash/commandline-related.
 
-[The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html#uh-1)
 
-[All about `tr` (translate)](http://www.thegeekstuff.com/2012/12/linux-tr-command)
+### General info on bash as a language
+
+[Machtelt Garrels' Bash Beginner's Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html#chap_01)
 
 [If statements in bash](https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php)
+
+### Working with the Sun Grid Engine (SGE)
 
 [The Sun Grid Engine (SGE) man page on qstat](http://gridscheduler.sourceforge.net/htmlman/htmlman1/qstat.html)
 
 [Checking SGE job status](http://web.mit.edu/longjobs/www/status.html)
 
-[A regular expressions playground](https://regex101.com/)
+### Closer looks at bash functions
+
+[All about `tr` (translate)](http://www.thegeekstuff.com/2012/12/linux-tr-command)
+
+[The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html#uh-1)
 
 [Detailed info on `watch`](http://www.linfo.org/watch.html)
 
-[Machtelt Garrels' Bash Beginner's Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html#chap_01)
+### Misc
+
+[A regular expressions playground](https://regex101.com/)
