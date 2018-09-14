@@ -31,6 +31,10 @@ Note that Mac's version of the terminal runs a login shell by default and thus c
 
 ## What is bash?
 
+"Bash" is an acronym which stands for *Bourne-again shell*, a joke on the Bourne shell it replaces. First released in 1989, the language is widely used for most Linux distributions and on Apple's macOS. Note that it is a separate language than the shell language used for Windows, PowerShell. Bash is typically run in a text window where the user types a command to interact with files, folder, and other objects on the desktop. It can also be used to execute commands from a file called a shell script, which is essentially what a `.bashrc` is.
+
+For more details [see the wikipedia page](https://en.wikipedia.org/wiki/Bash_(Unix_shell)).
+
 ## Basic bash commands
 
 Navigating in a linux enviroment can be terrifying for newcomers since it's vastly different from a point-and-click interface. Here are some useful bash commands to get you more comfortable working in the terminal.
@@ -56,12 +60,117 @@ These commands are all you need to get started working on the command line.
 | ------- | ----------- | -------
 | cat | displays the contents of a file. Can also be used for file con**cat**enation and file creation. [More information](http://www.linfo.org/cat.html) | -`cat file1` displays the contents of file1<br>-`cat file1 file 2 > file3` concatenates file1 and file2 into file3, overwriting anything file3<br>-`cat file1 >> file2` adds the contents file1 to the end of file2 without overwriting
 | head, tail | output the beginning, end of a file | -`head -n file` shows the first n lines
+| wc | **w**ord **c**ount; prints number of lines, words and bytes in a file | `wc file`
 
 [Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
 
 ## Aliases
 
+Aliases are basically nicknames you can give to commands. They're usually used for commands you type repeatly, very long commands you can't remember, or commands you mistype a lot, but you can make an alias out of pretty much anything. Some examples:
+
+```bash
+alias lh='ls -lhaG' # adds color and additional detail to ls outputs; I don't have to remember the details
+alias pdw='pwd'     # save yourself the annoyance if you mistype this often
+
+alias go='cd /long/file/path/I/cant/remember/and/dont/want/to/have/to/type/every/time'
+
+alias gs='git status' # shortcuts for git commands I used repeatedly
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+```
+
 ## Functions built for the cluster
+
+A lot of work at IHME revolves aroud launching, monitoring, and relaunching jobs on the cluster. Building in custom functions into your `.bashrc` to make what you do on a daily basis easier. Here are some examples.
+
+Toggle on/off full job names. SGE defaults to truncating job names after a certain number of characters. Command: `toggle`
+
+```bash
+toggle() {
+	if [ $SGE_LONG_JOB_NAMES -eq 1 ] 
+	then 
+		export SGE_LONG_JOB_NAMES=-1
+		echo "Full job names toggled on."
+	else
+		export SGE_LONG_JOB_NAMES=1
+		echo "Full job names toggled off."
+	fi
+}
+```
+
+List the number of jobs scheduled in each state. Ex if yo have 3 jobs running and 200 waiting for slots in the queue, `qstat_list` would return:
+
+```
+3 r Runing
+200 qw Pending: user (slots) hold
+```
+
+
+```bash
+# Tabulate the jobs running and report how many of each job state there are
+# Shows both the job code AND the written out state so it's more clear
+qstat_list() {
+		if [ -z '$1' ] 
+		then
+			args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
+		else
+			U='$1'
+			args=`qstat -u $U| grep $U |  awk '{a = $5 " " a} END {print a}'`
+		fi
+		
+    args=`qstat | grep $USER |  awk '{a = $5 " " a} END {print a}'`
+    code_to_state $args | sort | uniq -c
+}
+
+# Code to take a list of cluster job codes and turn them into their respective descriptive states
+# In other words, you can actualy understand what the job codes mean!
+code_to_state() {
+    for code in "$@"; do # allows a varying number of args, more flexible
+        case $code in
+            "qw") echo -e $code "\tPending: user (slots) hold" ;; # -e arg allows echo to recognize escaped chars like newlines, tabs, etc
+            "hqw") echo -e $code "\tPending: system (job) hold" ;;
+            "hRwq") echo -e $code "\tPending: user/system hold, re-queue" ;;
+            "r") echo -e $code "\tRunning" ;;
+            "t") echo -e $code "\tTransferring" ;;
+            "Rr") echo -e $code "\tRunning: re-submision" ;;
+            "Rt") echo -e $code "\tTransferring, re-submission" ;;
+            "s" | "ts") echo -e $code "\tJob suspended" ;;
+            "S" | "tS") echo -e $code "\tQueue suspended" ;;
+            "T" | "tT") echo -e $code "\tQueue suspended by alarm" ;;
+            "Rs" | "Rts" | "RS" | "RtS" | "RT" | "RtT") echo -e $code "\tAll suspended with re-submit" ;;
+            "Eqw" | "Ehqw" | "EhRqw") echo -e $code "\tError" ;;
+            "dr" | "dt" | "dRr" | "dRt" | "ds" | "dS" | "dT" | "dRs" | "dRS" | "dRT") echo -e $code "\tDeleted" ;; # regex would be better here
+            *) echo -e $code "\tUnknown job code" ;;
+        esac
+    done
+}
+```
+
+Very useful function to delete ALL jobs whose job names match whatever string you pass in. Ex: `qdeln calc` will delete all jobs with "calc" in their name.
+
+```bash
+qdeln() {
+    qstat | grep $1 | awk {'print $1'} | xargs qdel
+}
+```
+
+Delete jos based on the state they are in. Ex: `qdel_state r` will delete all jobs running
+
+```bash
+qdel_state() {
+	qstat -s $1 | awk {'print $1'} | tail -n +3 | xargs qdel
+}
+```
+
+Continuously monitor jobs, updating every minute. Note: it's better to wait 60 than repeatly called qstat as that can make the job scheduler very angry. Ex: `qstat_watch`
+
+```bash
+qstat_watch() {
+  watch -n 60 'qstat; beep; echo; echo "To exit, press ^C (control-C)."'
+}
+```
+
 
 ## General efficiency functions
 
