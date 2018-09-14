@@ -73,6 +73,7 @@ These commands are all you need to get started working on the command line.
 | mv | **m**o**v**e a file or directory. Can also be used to rename | -`mv old_file_name new_file_name`<br>-`mv file other_dir/file`
 | rm | **r**e**m**ove a file or directory although you'll need additional options for the latter | -`rm outdated_file`<br>-`rm -r outdated_dir`
 | man | displays a **man**ual page for a command. Not particularly useful unless you already know what you're looking for, but it's there if you need it. Press q to close | -`man cd`
+| ^C | Hotkey: kills the currently running process. Good to use if something goes wrong and you get stuck | -`^C`
 
 **File manipulation**
 
@@ -82,9 +83,8 @@ These commands are all you need to get started working on the command line.
 | head, tail | output the beginning, end of a file | -`head -n file` shows the first n lines
 | wc | **w**ord **c**ount; prints number of lines, words and bytes in a file | -`wc file`
 
-[Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
 
-**Generally useful**
+**Other generally useful commands**
 
 | Command | Description | Examples and options
 | --- | --- | ---
@@ -93,8 +93,12 @@ These commands are all you need to get started working on the command line.
 | grep | **g**et given string or **reg**ular expression from file | -`grep "name" file`<br>-`ls \| grep .txt` return all .txt files in directory
 | cal | outputs ASCII **cal**endar | -`cal`
 | whoami | outputs your username | -`whoami`
-| vim | open text-editor vim, which is notoriously hard to escape from. `escape, :wq` to escape | -`vim file` open file in vim.
+| vim | open text-editor vim, which is notoriously hard to escape from. `ESCAPE, :wq` to escape | -`vim file` open file in vim.
 | echo | prints out a message or value, like `println` | -`echo` prints a newline<br>-`echo john is my friend`<br>-`echo $USER` prints out the name of the user
+| source | Runs commands stored in another file. Great for reloading your `.bashrc` as you try things out without having to opena new window | -`source .bashrc`
+
+
+[Here's a fairly comprehensive list of bash commands compiled by UW.](https://courses.cs.washington.edu/courses/cse390a/15wi/bash.html)
 
 
 ## Aliases
@@ -348,6 +352,11 @@ clock
 
 ## Advanced bash commands
 
+| chmod | **ch** permissions of files or directories. See [here](https://www.computerhope.com/unix/uchmod.htm) | -`chmod 777 file` open all permissions on file<br>-`chmod 742 file` give full permissions to user, read + execute to group and read-only to other
+| egrep | **e**xtended regular expressions (same as running `grep -E`) | `asd` 
+
+chmod, egrep, find, xargs, htop, &, curl/wget
+
 ## Resources for more information
 
 Here are some helpful and more detailed links about various things bash/commandline-related.
@@ -372,6 +381,8 @@ Here are some helpful and more detailed links about various things bash/commandl
 [The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html#uh-1)
 
 [Detailed info on `watch`](http://www.linfo.org/watch.html)
+
+[Linux `chmod` command](https://www.computerhope.com/unix/uchmod.htm)
 
 ### Misc
 
