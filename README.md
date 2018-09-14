@@ -342,4 +342,4 @@ Here are some helpful and more detailed links about various things bash/commandl
 
 ### Misc
 
-[A regular expressions playground](https://regex101.com/)
+[Regex 101: a regular expressions playground](https://regex101.com/)
