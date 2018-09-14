@@ -352,14 +352,17 @@ clock
 
 ## Advanced bash commands
 
+Most of the functions here ahve links in their desciptions or in the additional resources section for details on what they are fully capable of, but this should give you a good overview of what's out there. There's many (complicated) bash functions out there that can potentially simplify whatever you're trying to do
+
 | Command | Description | Examples and options
 | --- | --- | ---
 | chmod | **ch** permissions of files or directories. See [here](https://www.computerhope.com/unix/uchmod.htm) | -`chmod 777 file` open all permissions on file<br>-`chmod 742 file` give full permissions to user, read + execute to group and read-only to other
 | egrep | **e**xtended regular expressions (same as running `grep -E`) | -`egrep "support|help|windows" file`<br>-`egrep ^[a-zA-Z]+$' file`
 | find | finds files, outputs their path relative to you. Allows advanced filtering and running commands on found files | -`find dir` outputs everything in dir<br>-`find dir -type -f` outputs all files in dir<br>-`find -name "*.csv"` finds all csvs in the directory you're currently in
-| xargs | Reads data from standard input (stdin) and executes the given command 1 or more times based on the input. Blanks or spaces in the input are treated as delimiters; blank lines are ignored | -`ls | xargs wc` esentially the same as `wc *`<br>-`find -name "*to_delete*" | xargs rm`
+| xargs | Reads data from standard input (stdin) and executes the given command 1 or more times based on the input. Blanks or spaces in the input are treated as delimiters; blank lines are ignored | -`ls \| xargs wc` esentially the same as `wc *`<br>-`find -name "*to_delete*" | xargs rm`
 | htop | Powerful terminal-based system monitoring application that displays variouos systme processes and their resource consumption in a human-readable way. See [here](https://www.maketecheasier.com/power-user-guide-htop/) | -`htop`
 | curl | **c**ommand line tool for getting/sending files using **url** syntax | -`curl http://www.google.com >> google.txt`
+| sed | the ultimate **s**tream **ed**itor. sed is a remarkable tool that lends itself to so many things because of the huge amount of flexibility is has built in. It's capable of string substitution, extended regular expression matching, selective string deletion, and much more. Read the definitive guide to sed [here](http://www.grymoire.com/Unix/Sed.html) | -`sed s/day/night/ <old >new` changes "day" in the "old" file to "night" in the "new" file<br>-`sed -n '/\([a-z][a-z]*\) \1/p'` detect duplicated words
 
 
 ## Resources for more information
@@ -383,7 +386,7 @@ Here are some helpful and more detailed links about various things bash/commandl
 
 [All about `tr` (translate)](http://www.thegeekstuff.com/2012/12/linux-tr-command)
 
-[The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html#uh-1)
+[The definitive guide on `sed`.](http://www.grymoire.com/Unix/Sed.html)
 
 [Detailed info on `watch`](http://www.linfo.org/watch.html)
 
@@ -394,6 +397,8 @@ Here are some helpful and more detailed links about various things bash/commandl
 [`xargs` command tutorial with examples](https://shapeshed.com/unix-xargs/)
 
 [The Power-User's Guide to `htop`](https://www.maketecheasier.com/power-user-guide-htop/)
+
+[Command line tutorials: `curl`](https://quickleft.com/blog/command-line-tutorials-curl/)
 
 ### Misc
 
