@@ -3,6 +3,26 @@ Helpful bash functions that can be pasted into a .bashrc file or run directly on
 
 **Note:** this repo is currently under development, so not everything is in its final state! Please keep this in mind.
 
+## Table of contents
+
+* [What is a .bashrc?](https://github.com/ShadeWilson/bashrc_setup#what-is-a-bashrc)
+
+* [What is bash?](https://github.com/ShadeWilson/bashrc_setup#what-is-bash)
+
+* [Basic bash commands](https://github.com/ShadeWilson/bashrc_setup#basic-bash-commands)
+
+* [Aliases](https://github.com/ShadeWilson/bashrc_setup#aliases)
+
+* [Functions built for the cluster](https://github.com/ShadeWilson/bashrc_setup#functions-built-for-the-cluster)
+
+* [General efficiency functions](https://github.com/ShadeWilson/bashrc_setup#general-efficiency-functions)
+
+* [Just for fun(ctions)](https://github.com/ShadeWilson/bashrc_setup#just-for-functions)
+
+* [Advanced bash commands](https://github.com/ShadeWilson/bashrc_setup#advanced-bash-commands)
+
+* [Resources for more informations](https://github.com/ShadeWilson/bashrc_setup#resources-for-more-information)
+
 ## What is a .bashrc?
 A `.bashrc` file is basically a configuration file that sets up your environment when you open up a terminal window. It is a special kind of shell script typically found in your home directory that's run at the beginning of a session. You can also run it by typing `source .bashrc` in your home directory. You can put pretty much whatever you want into your .bashrc. It's a great place to customize the look of your command prompt (the bit before where your commands go. ex: `shadew $`), add in aliases, or "nicknames", for commands you often type, or write functions you can call no matter what directory you're in.
 
