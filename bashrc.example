@@ -9,9 +9,9 @@ fi
 
 if test -x /usr/local/codem/;
 then
-    export PATH=/usr/local/codem/public_use_anaconda/bin:$PATH;
+    export PATH=$PATH;
 else
-    export PATH=/share/local/R-3.2.4/bin/:$PATH;
+    export PATH=$PATH;
 fi
 
 # Set up prompt
@@ -88,12 +88,7 @@ alias pdw='pwd'
 
 job_stats() { if [ -z "$1" ]; then U=$USER; else U=$1; fi; echo `qstat -u $U | grep $U | awk {'print $5'} | sort | uniq -c`; };
 
-# Jupyter notebook
-jupyter_notebook() {
-    export R_LIBS=/usr/local/codem/public_use_anaconda/lib/R/library:$R_LIBS
-    export PATH=/usr/local/codem/public_use_anaconda/bin/:$PATH
-    /usr/local/codem/public_use_anaconda/bin/jupyter-notebook
-}
+
 
 # Code to take a list of cluster job codes and turn them into their respective descriptive states
 # In other words, you can actualy understand what the job codes mean!
@@ -143,28 +138,12 @@ qstat_list() {
     code_to_state $args | sort | uniq -c
 }
 
-ipython_notebook() {
-    export R_LIBS=/usr/local/codem/public_use_anaconda/lib/R/library:$R_LIBS
-    export PATH=/usr/local/codem/public_use_anaconda/bin/:$PATH
-    /usr/local/codem/public_use_anaconda/bin/jupyter-notebook
-}
 
 qdeln() {
     qstat | grep $1 | awk {'print $1'} | xargs qdel
 }
 
-launch_rstudio() {
-    SLOTS=${1:-2} # Replace 2 with what you want your default slot number to be
-    PROJECT=${2:-""}
-    PORT=6009 # Replace with your default port number
 
-    if [ "$PROJECT" = "" ]; then
-        sh /share/singularity-images/rstudio/shells/rstudio_qsub_script.sh -p $PORT -s $SLOTS
-    else
-        sh /share/singularity-images/rstudio/shells/rstudio_qsub_script.sh -p $PORT -P $PROJECT -s $SLOTS
-    fi
-}
-# launch_rstudio num_slots my_proj
 
 
 # Continually run qstat every 10 seconds so you don't have to keep repeating the command
